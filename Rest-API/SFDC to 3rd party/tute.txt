@@ -1,0 +1,46 @@
+HTTP Classes
+-------------
+
+
+1. These classes expose the HTTP request and response functionality.
+	Http Class:  Use this class to initiate an HTTP request and response.
+	HttpRequest Class: Use this class to programmatically create HTTP requests like GET, POST, PATCH, PUT, and DELETE.
+	HttpResponse Class: Use this class to handle the HTTP response returned by HTTP.
+
+
+2. The HttpRequest and HttpResponse classes support these elements.
+	A) HttpRequest
+		-> HTTP request types, such as GET, POST, PATCH, PUT, DELETE, TRACE, CONNECT, HEAD, and OPTIONS
+		-> Request headers if needed
+		-> Read and connection timeouts
+		-> Redirects if needed
+		-> Content of the message body
+	B) HttpResponse
+		-> The HTTP status code
+		-> Response headers if needed
+		-> Content of the response body
+
+
+
+3. Sample code : 
+	
+public class HttpCalloutSample {
+
+  // Pass in the endpoint to be used using the string url
+  public String getCalloutResponseContents(String url) {
+
+    // Instantiate a new Http object
+    Http h = new Http();
+
+     // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
+    HttpRequest req = new HttpRequest();
+    req.setEndpoint(url);
+    req.setMethod('GET');
+
+    // Send the request, and return a response
+    HttpResponse res = h.send(req);
+    return res.getBody();
+  }
+}
+
+

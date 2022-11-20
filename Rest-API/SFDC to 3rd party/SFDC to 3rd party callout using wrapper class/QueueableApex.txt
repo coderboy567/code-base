@@ -1,0 +1,33 @@
+public class AmeyoLeadRandomDataCallout implements Queueable, Database.AllowsCallouts{
+    List<Ameyo_Lead__c> ameyoList = new List<Ameyo_Lead__c> ();
+    
+    public AmeyoLeadRandomDataCallout(List<Id> idAmeyoList){
+        ameyoList = [Select Id, Customer_Name__c, Customer_Phone__c , Customer_Email__c from Ameyo_lead__c where Id in :idAmeyoList ];
+    }
+    public void execute(QueueableContext qc){
+        for(Ameyo_Lead__c ameyoRecord : ameyoList){
+            
+            Http http = new Http();
+            HttpRequest req = new HttpRequest();
+            req.setEndpoint('https://random-data-api.com/api/v2/users');
+            req.setMethod('GET');
+            
+            HttpResponse res = http.send(req);
+                        
+            AmeyoLeadRandomDataWrapper wrapperClass = AmeyoLeadRandomDataWrapper.parse(res.getBody());
+            
+            ameyoRecord.Customer_Name__c = wrapperClass.first_name + ' ' + wrapperClass.last_name;
+            ameyoRecord.Customer_Phone__c = wrapperClass.phone_number;            
+            ameyoRecord.Customer_Email__c = wrapperClass.email;
+            ameyoRecord.City__c = wrapperClass.address.city;            
+            ameyoRecord.State__c = wrapperClass.address.state;                
+            ameyoRecord.Country__c = wrapperClass.address.country;            
+            ameyoRecord.Pincode__c = wrapperClass.address.zip_code;
+            
+                        
+        }
+        update ameyoList;
+        
+    }
+    
+}

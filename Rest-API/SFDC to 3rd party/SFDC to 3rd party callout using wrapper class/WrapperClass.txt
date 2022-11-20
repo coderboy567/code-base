@@ -1,0 +1,55 @@
+public class AmeyoLeadRandomDataWrapper {
+
+	public Integer id;
+	public String uid;
+	public String password;
+	public String first_name;
+	public String last_name;
+	public String username;
+	public String email;
+	public String avatar;
+	public String gender;
+	public String phone_number;
+	public String social_insurance_number;
+	public String date_of_birth;
+	public Employment employment;
+	public Address address;
+	public Credit_card credit_card;
+	public Subscription subscription;
+
+	public class Address {
+		public String city;
+		public String street_name;
+		public String street_address;
+		public String zip_code;
+		public String state;
+		public String country;
+		public Coordinates coordinates;
+	}
+
+	public class Employment {
+		public String title;
+		public String key_skill;
+	}
+
+	public class Coordinates {
+		public Double lat;
+		public Double lng;
+	}
+
+	public class Credit_card {
+		public String cc_number;
+	}
+
+	public class Subscription {
+		public String plan;
+		public String status;
+		public String payment_method;
+		public String term;
+	}
+
+	
+	public static AmeyoLeadRandomDataWrapper parse(String json) {
+		return (AmeyoLeadRandomDataWrapper) System.JSON.deserialize(json, AmeyoLeadRandomDataWrapper.class);
+	}
+}
