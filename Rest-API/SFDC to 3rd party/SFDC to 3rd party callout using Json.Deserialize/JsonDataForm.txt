@@ -1,0 +1,39 @@
+{
+  "id": 6998,
+  "uid": "8eb8e1f6-dabb-4b28-9495-71f6e339340d",
+  "password": "lFCmkZwHp2",
+  "first_name": "Adolph",
+  "last_name": "Paucek",
+  "username": "adolph.paucek",
+  "email": "adolph.paucek@email.com",
+  "avatar": "https://robohash.org/voluptateminciduntrepudiandae.png?size=300x300&set=set1",
+  "gender": "Genderfluid",
+  "phone_number": "+976 1-105-059-1053",
+  "social_insurance_number": "634699847",
+  "date_of_birth": "1964-08-13",
+  "employment": {
+    "title": "International Agent",
+    "key_skill": "Fast learner"
+  },
+  "address": {
+    "city": "Yundtmouth",
+    "street_name": "Lanell Estate",
+    "street_address": "34741 McKenzie Land",
+    "zip_code": "02745-6855",
+    "state": "Florida",
+    "country": "United States",
+    "coordinates": {
+      "lat": -72.40579021970817,
+      "lng": 112.45604493739222
+    }
+  },
+  "credit_card": {
+    "cc_number": "4709494491840"
+  },
+  "subscription": {
+    "plan": "Standard",
+    "status": "Pending",
+    "payment_method": "Google Pay",
+    "term": "Annual"
+  }
+}

@@ -1,0 +1,38 @@
+public class AmeyoLeadRandomDataCallout implements Queueable, Database.AllowsCallouts{
+    List<Ameyo_Lead__c> ameyoList = new List<Ameyo_Lead__c> ();
+    
+    public AmeyoLeadRandomDataCallout(List<Id> idAmeyoList){
+        ameyoList = [Select Id, Customer_Name__c, Customer_Phone__c , Customer_Email__c from Ameyo_lead__c where Id in :idAmeyoList ];
+    }
+    public void execute(QueueableContext qc){
+        for(Ameyo_Lead__c ameyoRecord : ameyoList){
+            
+            Http http = new Http();
+            HttpRequest req = new HttpRequest();
+            req.setEndpoint('https://random-data-api.com/api/v2/users');
+            req.setMethod('GET');
+            
+            HttpResponse res = http.send(req);
+                        
+            Map<String, Object> jsonDataMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+            
+            ameyoRecord.Customer_Name__c = jsonDataMap.get('first_name') + ' ' + jsonDataMap.get('last_name');
+            ameyoRecord.Customer_Phone__c = (String)jsonDataMap.get('phone_number');
+            ameyoRecord.Customer_Email__c = (String)jsonDataMap.get('email');
+            
+            Map<String, Object> addressJson = (Map<String, Object>)jsonDataMap.get('address');
+            
+            ameyoRecord.City__c = (addressJson.get('city')).toString();            
+            ameyoRecord.State__c = (addressJson.get('state')).toString();                
+            ameyoRecord.Country__c = (addressJson.get('country')).toString();            
+            ameyoRecord.Pincode__c = (addressJson.get('zip_code')).toString();
+            
+            
+                        
+        }
+        update ameyoList;
+        
+    }
+    
+}
+
