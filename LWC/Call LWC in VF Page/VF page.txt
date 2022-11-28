@@ -1,0 +1,23 @@
+<apex:page sidebar="true" showHeader="true" standardController="Opportunity">
+//if we cannot define the standard controller then it will not visible in VF page section(Where we need to embedd the VF page in page layout or etc)
+    <apex:includeLightning />
+    <!--Lightning Container-->
+    <div style="width:100%;height:500px;" id="LightningContainer"/>
+      
+    <script type="text/javascript">
+    //get contact Id from URL
+    var oppId = "{!$CurrentPage.parameters.id}";
+      
+//in LWC to fetch recordID we need to declare the @api recordInfo; to fetch the recordId
+    //Create Lightning Component
+
+
+    $Lightning.use("c:AuraApplication", function() {
+        $Lightning.createComponent("c:LwcComponentName", 
+                                   { "recordInfo" : oppId }, //Pass Parameter
+                                   "LightningContainer", function(component) {
+                                       console.log('Component created Successfully');
+                                   });
+    });
+    </script>
+</apex:page>

@@ -14,16 +14,16 @@ public class AmeyoLeadRandomDataCallout implements Queueable, Database.AllowsCal
             
             HttpResponse res = http.send(req);
                         
-            AmeyoLeadRandomDataWrapper wrapperClass = AmeyoLeadRandomDataWrapper.parse(res.getBody());
-            
-            ameyoRecord.Customer_Name__c = wrapperClass.first_name + ' ' + wrapperClass.last_name;
-            ameyoRecord.Customer_Phone__c = wrapperClass.phone_number;            
-            ameyoRecord.Customer_Email__c = wrapperClass.email;
-            ameyoRecord.City__c = wrapperClass.address.city;            
-            ameyoRecord.State__c = wrapperClass.address.state;                
-            ameyoRecord.Country__c = wrapperClass.address.country;            
-            ameyoRecord.Pincode__c = wrapperClass.address.zip_code;
-            
+		if(res.getStatusCode() == 200){
+			AmeyoLeadRandomDataWrapper wrapperClass = AmeyoLeadRandomDataWrapper.parse(res.getBody());
+			ameyoRecord.Customer_Name__c = wrapperClass.first_name + ' ' + wrapperClass.last_name;
+            	ameyoRecord.Customer_Phone__c = wrapperClass.phone_number;            
+            	ameyoRecord.Customer_Email__c = wrapperClass.email;
+            	ameyoRecord.City__c = wrapperClass.address.city;            
+            	ameyoRecord.State__c = wrapperClass.address.state;                
+	            ameyoRecord.Country__c = wrapperClass.address.country;            
+      	      ameyoRecord.Pincode__c = wrapperClass.address.zip_code;
+		}
                         
         }
         update ameyoList;

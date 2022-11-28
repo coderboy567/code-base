@@ -1,0 +1,8 @@
+We cannot Embedd the LWC in page layout section, for this we need to call the LWC into VF page, because VF page can be embedded in Section.
+
+
+For this:
+
+1. We need to create aura application as a wrapper.
+2. LWC: that need to be embedded.
+3. VF page : where the LWC to be rendered.

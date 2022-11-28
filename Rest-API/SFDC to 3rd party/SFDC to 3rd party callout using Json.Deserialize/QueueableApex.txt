@@ -13,20 +13,23 @@ public class AmeyoLeadRandomDataCallout implements Queueable, Database.AllowsCal
             req.setMethod('GET');
             
             HttpResponse res = http.send(req);
+
+		if(res.getStatusCode() == 200){
+			Map<String, Object> jsonDataMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
+            
+           		ameyoRecord.Customer_Name__c = jsonDataMap.get('first_name') + ' ' + jsonDataMap.get('last_name');
+            	ameyoRecord.Customer_Phone__c = (String)jsonDataMap.get('phone_number');
+            	ameyoRecord.Customer_Email__c = (String)jsonDataMap.get('email');
+            
+	            Map<String, Object> addressJson = (Map<String, Object>)jsonDataMap.get('address');
+      	      
+       	     	ameyoRecord.City__c = (addressJson.get('city')).toString();            
+            	ameyoRecord.State__c = (addressJson.get('state')).toString();                
+            	ameyoRecord.Country__c = (addressJson.get('country')).toString();            
+            	ameyoRecord.Pincode__c = (addressJson.get('zip_code')).toString();
+		}
                         
-            Map<String, Object> jsonDataMap = (Map<String, Object>)JSON.deserializeUntyped(res.getBody());
-            
-            ameyoRecord.Customer_Name__c = jsonDataMap.get('first_name') + ' ' + jsonDataMap.get('last_name');
-            ameyoRecord.Customer_Phone__c = (String)jsonDataMap.get('phone_number');
-            ameyoRecord.Customer_Email__c = (String)jsonDataMap.get('email');
-            
-            Map<String, Object> addressJson = (Map<String, Object>)jsonDataMap.get('address');
-            
-            ameyoRecord.City__c = (addressJson.get('city')).toString();            
-            ameyoRecord.State__c = (addressJson.get('state')).toString();                
-            ameyoRecord.Country__c = (addressJson.get('country')).toString();            
-            ameyoRecord.Pincode__c = (addressJson.get('zip_code')).toString();
-            
+                 
             
                         
         }

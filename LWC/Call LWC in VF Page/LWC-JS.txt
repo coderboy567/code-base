@@ -1,0 +1,3 @@
+@api recordInfo; 
+
+VF page is passing recordId in this @api property.

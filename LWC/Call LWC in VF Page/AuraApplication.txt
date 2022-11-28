@@ -1,0 +1,4 @@
+<aura:application access="GLOBAL" extends="ltng:outApp" >
+//LWC component name
+    <c:LwcComponentName></c:LwcComponentName>
+</aura:application>
