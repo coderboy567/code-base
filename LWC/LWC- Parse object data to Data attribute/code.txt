@@ -1,0 +1,11 @@
+if(data != null){
+                JSON.parse(data).forEach(element => {
+                    let tempObj = {
+                        "Name" : element.Name,
+                        "Profile" : element.Profile,
+                        "Asset" : element.Asset
+                    }                                    
+                    this.dataToBePassed.push(tempObj);
+                })
+                this.data = this.dataToBePassed;
+            }
