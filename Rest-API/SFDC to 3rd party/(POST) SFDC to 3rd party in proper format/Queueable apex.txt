@@ -1,0 +1,76 @@
+public class PushJobForCallout implements Queueable, Database.AllowsCallouts {
+    Contact con; 
+    
+    public PushJobForCallout(Contact con){
+        this.con = con;
+    }
+    public void execute(QueueableContext qc){
+        createJob(con);
+    }
+    
+    public void createJob(Contact con){
+        try{
+            String requestData = prepareData(con);
+            system.debug('requestData : '+requestData);
+            HttpResponse response = makePostCallout('test.com', requestData);
+            if(response.getStatusCode() == 200){
+                //
+            }            
+            saveApiResponse(response, requestData);
+        }
+        catch(Exception e){
+            system.debug('Error : '+e.getMessage()+' at line: '+e.getLineNumber());
+        }
+    }                  
+    
+    public String prepareData(Contact con){
+        DataWrapper data = new DataWrapper();
+        data.name = con.Name;
+        data.email = con.Email;
+        data.phone = con.Phone;
+        data.address = getAddress(con);
+        system.debug('data : '+JSON.serialize(data));
+        return JSON.serialize(data);        
+    }    
+    
+    public class DataWrapper{
+        public string name;
+        public string email;
+        public string phone;
+        public string Address;
+    }
+    
+    public String getAddress(Contact con){
+        Map<String, Object> mapOfAddress = new Map<String, Object> ();
+        mapOfAddress.put('City', con.MailingCity);
+        mapOfAddress.put('State', con.MailingState);
+        mapOfAddress.put('Country', con.MailingCountry);        
+        return JSON.serialize(mapOfAddress);
+    }
+    
+    
+    public HttpResponse makePostCallout(String endpoint, String body){
+        Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setBody(body);
+        req.setEndpoint(endpoint);
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
+        req.setHeader('Accept', 'application/json');
+        req.setTimeout(20000);
+        
+        HttpResponse res = h.send(req);
+        return res;
+    }
+    
+    
+    public void saveApiResponse(HttpResponse res, String requestBody){
+        String getBody = res.getBody();
+        String getStatus = res.getStatus();
+        String getStatusCode = String.valueOf(res.getStatusCode());
+	  String apiRequestBody = requestBody;        
+    }
+    
+    
+    
+}
