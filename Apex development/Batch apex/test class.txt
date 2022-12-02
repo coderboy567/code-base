@@ -1,0 +1,22 @@
+Note: In test classes we can only process with 200 records (**confirm this)
+
+@isTest 
+public class BatchClassImplementationTest {
+	@isTest
+    private static void testBatchClass(){
+        List<Opportunity> oppList = new List<Opportunity>();
+        
+        for(integer i = 0; i < 200; i++){
+            OppList.add(new Opportunity(name = 'test'+i, stageName = 'Prospecting', closeDate = system.today()));
+        }
+        insert oppList;
+        
+        test.startTest();
+        BatchClassImplementation batchClass1 = new BatchClassImplementation();
+        Id batchId = Database.executeBatch(batchClass1);
+        test.stopTest();
+        
+        List<opportunity> insertedOppList = [select id from opportunity where leadSource = 'Web'];
+        system.assertEquals(200, insertedOppList.size());
+    }
+}

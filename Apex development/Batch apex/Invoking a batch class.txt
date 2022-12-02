@@ -1,0 +1,7 @@
+MyBatch myBatchObj = new MyBatch();
+Id batchId = Database.executeBatch(myBatchObj);
+
+//Pass batch size if needed
+Id batchId = Database.executeBatch(myBatchObj, 100);
+
+Note: also batchId is received to track the status of batch apex.
