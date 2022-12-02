@@ -1,0 +1,28 @@
+@isTest
+public class DailyOppProcessorTest {
+	@isTest
+    public static void testScheduleApex(){
+        List<opportunity> oppList = new List<opportunity>();
+        for(integer i = 1; i <= 100; i++){
+            Opportunity opp = new Opportunity(name = 'TestOpp'+i, StageName = 'test', 
+                                                                    CloseDate = system.today());
+            oppList.add(opp);
+        }
+ 
+        if(!oppList.isEmpty()){
+            insert oppList;
+        }
+        
+        String sch = '0 0 0 ? * * *';
+        test.startTest();
+        String jobId = System.Schedule('Process opportunity', sch, new DailyOppProcessor());
+        
+        test.stopTest();
+        List<Opportunity> oppRec = [select id, leadSource from opportunity where
+                                                        leadSource = 'Web'];
+        system.assertEquals(100, oppRec.size());
+        
+        
+        
+    }
+}

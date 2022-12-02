@@ -1,0 +1,27 @@
+//create a list of contact
+List<Contact> contactList = new List<Contact>
+    {new Contact(lastname = ‘ankit’),
+    new contact(name = ‘coderboy’),
+    new contact()};
+ 
+//We have create a list of 3 elements i.e. 3 contacts.
+//first 2 records is okay to be insert but 3rd record will cause DML exception.
+ 
+//bulk insert all contacts with one DML call
+Database.SaveResult[] srList = Database.insert(contactList, false);
+ 
+//iterate through each returned object.
+for(Database.SaveResult sr : srList){
+    if(sr.isSuccess()){
+        //operation was successfull, now we will get the Id of all inserted records
+        System.debug('Successfully inserted contact. Contact ID: '+ sr.getId());
+    }
+    else{
+        //operation failed so get all the errors
+        for(Database.Error err: sr.getErrors()){
+            system.debug('The following error has occurred:');
+            system.debug(err.getStatusCode()+ ':'+ err.getMessage());
+            system.debug('Contact field that affected this error: '+err.getFields());
+        }
+    }
+}

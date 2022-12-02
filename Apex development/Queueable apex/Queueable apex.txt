@@ -1,0 +1,30 @@
+public class UpdateParentAccount implements Queueable {
+    
+    private List<Account> accList ;
+    private Id parentAccId;
+    
+    //calling constructor:
+    public UpdateParentAccount(List<Account> accRecords, Id id){
+        this.accList = accRecords;
+        this.parentAccId = id;
+        //whatever we pass with the class it will store in these 2 vars
+    }
+    
+    public void execute(QueueableContext context){
+        for(Account acc : accList){
+ 			acc.ParentId = parentAccId;           
+        }   
+        update accList;
+    }
+    
+}
+
+
+
+To call this Queueable apex:
+List<Account> accList = [select id from account limit 20];
+
+Id parentId = [select Id from Account where AccountNumber = 'CD451796' limit 1][0].Id;
+
+UpdateParentAccount testQueue = new UpdateParentAccount(accList, parentId);
+Id jobId = system.enqueueJob(testQueue);

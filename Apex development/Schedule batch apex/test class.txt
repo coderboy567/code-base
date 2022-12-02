@@ -1,0 +1,23 @@
+@isTest
+public class ScheduleBatchApexTest {
+    @isTest
+    public static void batchApexTest(){
+        Opportunity oppRec = new Opportunity();
+        oppRec.name = 'testOpp';
+        //oppRec.LeadSource = 'Web';
+        oppRec.StageName = 'Prospecting';
+        oppRec.CloseDate = system.today();
+        insert oppRec;
+        
+        String sch = '0 0 0 ? * * *';
+        
+        test.startTest();
+        ScheduleBatchApex ref = new ScheduleBatchApex();
+        String jobId = system.Schedule('Schedule Batch Apex', sch, ref);
+        test.stopTest();        
+        
+        Opportunity opp1 = [select id, leadSource from opportunity where leadSource = 'Web'];
+        system.assertEquals('Web', opp1.LeadSource);
+      
+    }
+}

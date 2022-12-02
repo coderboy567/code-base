@@ -1,0 +1,13 @@
+Class1:
+
+public class FirstJob implements Queueable{
+    public void execute(QueueableContext context){
+        //code
+        system.enqueueJob(new SecondJob());
+    }
+}
+
+Class2:
+public class SecondJob {
+//code
+}

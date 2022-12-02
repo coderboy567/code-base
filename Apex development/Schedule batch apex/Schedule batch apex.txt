@@ -1,0 +1,33 @@
+public class BatchClassImplementation implements Database.Batchable<sObject>, Database.stateful{
+	public integer recordCount = 0;
+    public Database.QueryLocator start(Database.BatchableContext bc){
+        return Database.getQueryLocator([select Id, Name from Opportunity]);
+    }
+    
+    public void execute(Database.BatchableContext bc, List<opportunity> oppList){
+        for(Opportunity opp : oppList){
+            opp.LeadSource = 'Web';
+        }
+        update oppList;
+        recordCount = recordCount + oppList.size();
+    }
+    
+    public void finish(Database.BatchableContext bc){
+        system.debug('Total record count: '+recordCount);
+    }
+}
+
+
+
+Now we will call this batch class in scheduled apex class
+
+
+
+
+public class ScheduleBatchApex implements Schedulable {
+    public void execute(SchedulableContext ctx){
+        BatchClassImplementation  batchReference = new BatchClassImplementation ();
+        Database.executeBatch(batchReference);
+    }
+
+}

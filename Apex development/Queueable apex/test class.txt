@@ -1,0 +1,28 @@
+@isTest
+public class UpdateParentAccountTest {
+	@testSetup
+    static void setup(){
+        List<Account> accList = new List<Account> ();
+        accList.add(new Account(name = 'parent'));
+        
+        for(integer i = 0; i < 100; i++){
+            accList.add(new Account(name = 'test account'+i));
+        }
+        insert accList;                
+    }
+    
+    @isTest
+    private static void testQueueable(){
+        Id parentId = [select Id from account where name = 'parent' limit 1][0].Id;
+        List<Account> accList = [select Id, name from account where name != 'parent'];
+        UpdateParentAccount testQueue = new UpdateParentAccount(accList, parentId);
+		
+        test.startTest();
+        system.enqueueJob(testQueue);            
+        test.stopTest();
+        
+        system.assertEquals(100, [select count() from account where ParentId = :parentId]);
+        
+        
+    }
+}
