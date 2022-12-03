@@ -1,0 +1,79 @@
+public class GetCalloutForContactInsertion implements Queueable, Database.AllowsCallouts{
+    
+    public void execute(QueueableContext qc){
+        createJob();
+    }
+    
+    
+    public void createJob(){
+        HttpResponse res = makeGetCallout('https://run.mocky.io/v3/b7f1c5ec-7df2-4e87-9309-1f0d841c4a59');
+        if(res.getStatusCode() == 200 && res.getBody() != null){
+            List<Contact> conList = prepareData(res.getBody());
+            if(!conList.isEmpty())
+            	callDbClass(conList);
+        }
+    }
+    
+    public HttpResponse makeGetCallout(String endPoint){        
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint(endpoint);
+        req.setMethod('GET');
+        req.setTimeout(2000);
+        req.setHeader('Content-Type', 'application/json');
+        req.setHeader('Accept', 'application/json');   
+        
+        Http h = new Http();
+        HttpResponse res = h.send(req);
+        
+        return res;
+    }
+    
+    public List<Contact> prepareData(String responseBody){
+        List<Contact> conList = new List<Contact> ();
+        
+        system.debug('Response body : '+responseBody);
+        List<Object> listData = (List<Object>)JSON.deserializeUntyped(responseBody);
+        system.debug('MapOfData : '+listData);
+        for(Object record : listData){
+            Map<String, Object> mapRecord = (Map<String, Object>)record;
+            system.debug('Record :'+record);	
+            Contact con = new Contact();
+           
+            con.AccountId = '0015g000014cojPAAQ';
+            system.debug('Email : '+mapRecord.get('Email')); 
+            
+            con.Email = !String.isBlank((String)mapRecord.get('Email')) ? (String)mapRecord.get('Email') : null ;
+            con.FirstName = !String.isBlank((String)mapRecord.get('FirstName')) ? (String)mapRecord.get('FirstName') : null;
+            con.LastName = !String.isBlank((String)mapRecord.get('LastName')) ? (String)mapRecord.get('LastName') : null;            
+            con.MailingCity = !String.isBlank((String)mapRecord.get('MailingCity')) ? (String)mapRecord.get('MailingCity') : null;            
+            con.MailingCountry = !String.isBlank((String)mapRecord.get('MailingCountry')) ? (String)mapRecord.get('MailingCountry') : null;
+            con.MailingPostalCode = !String.isBlank((String)mapRecord.get('MailingPostalCode')) ? (String)mapRecord.get('MailingPostalCode') : null;
+            con.MailingStreet = !String.isBlank((String)mapRecord.get('MailingStreet')) ? (String)mapRecord.get('MailingStreet') : null;
+            
+            Map<String, Object> attributes = (Map<String, Object>)mapRecord.get('attributes');
+            if(!attributes.isEmpty()){
+                con.Description = !String.isBlank((String)attributes.get('url')) ? (String)attributes.get('url') : null;
+                con.Department = !String.isBlank((String)attributes.get('type')) ? (String)attributes.get('type') : null;
+            }
+            
+            conList.add(con);            
+        }                
+        return conList;
+    }
+    
+    public void callDbClass(List<Contact> conList){
+        Database.SaveResult[] srList = Database.insert(conList, false);
+        
+        for(Database.SaveResult sr : srList){
+            if(sr.isSuccess()){              
+                System.debug('Successfully inserted contact. Contact ID: '+ sr.getId());
+            }
+            else{
+                for(Database.Error err: sr.getErrors()){
+                    system.debug('The following error has occurred ---> ' + err.getStatusCode()+ ':'+ err.getMessage());
+                    system.debug('Contact field that affected this error: '+err.getFields());
+                }
+            }
+        }
+    }
+}

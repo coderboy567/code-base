@@ -1,0 +1,14 @@
+@isTest
+public class GetCalloutForContactInsertionTestClass {
+	@isTest
+    public static void calloutTest(){
+        
+        test.startTest();
+        Test.setMock(HttpCalloutMock.class, new GetCalloutForContactInsertionMock()); 
+        system.enqueueJob(new GetCalloutForContactInsertion());
+        test.stopTest();
+        
+        system.debug('test : '+[select id, AccountId, Email, FirstName, LastName, MailingCity, MailingCountry, MailingPostalCode, MailingStreet, Description, Department from contact]);
+        
+    }     
+}
