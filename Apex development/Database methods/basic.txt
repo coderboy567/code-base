@@ -19,9 +19,9 @@ for(Database.SaveResult sr : srList){
     else{
         //operation failed so get all the errors
         for(Database.Error err: sr.getErrors()){
-            system.debug('The following error has occurred:');
-            system.debug(err.getStatusCode()+ ':'+ err.getMessage());
-            system.debug('Contact field that affected this error: '+err.getFields());
+                    system.debug('The following error has occurred ---> ' + err.getStatusCode()+ ':'+ err.getMessage());
+                   system.debug('Contact field that affected this error: '+err.getFields());
+
         }
     }
 }
