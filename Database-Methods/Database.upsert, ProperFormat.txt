@@ -1,0 +1,15 @@
+ Database.UpsertResult[] dbList = Database.upsert(jobToBeInsert, ExternalIdFieldName__C, false);
+       
+        for(Database.UpsertResult sr : dbList){
+            if(sr.isSuccess()){               
+                System.debug('Successfully inserted: JOB ID - '+ sr.getId());
+            }
+            else{
+                
+                for(Database.Error err: sr.getErrors()){
+                    system.debug('The following error has occurred:');
+                    system.debug(err.getStatusCode()+ ':'+ err.getMessage());
+                    system.debug('JOB field that affected this error: '+err.getFields());
+                }
+            }
+        }
