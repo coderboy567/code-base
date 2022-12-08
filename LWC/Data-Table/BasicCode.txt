@@ -1,0 +1,23 @@
+<lightning-datatable
+key-field= {keyField}
+data = {data}
+columns = {columns}
+></lightning-datatable>
+
+
+
+const columns = [
+    { label : "Customer Name", fieldName : "Customer_Name__c"},
+    { label : "Customer Phone", fieldName : "Customer_Phone__c"},
+    { label : "Customer Email", fieldName : "Customer_Email__c"}
+];
+ 
+
+The Format of data will be like this : 
+let dataTemp = [ 
+		{"Customer_Name__c":"a1", "Customer_Phone__c":"a2", "Customer_Email__c":"a3" }, 
+		{"Customer_Name__c":"a1", "Customer_Phone__c":"a2", "Customer_Email__c":"a3" } ,
+		{"Customer_Name__c":"a1", "Customer_Phone__c":"a2", "Customer_Email__c":"a3" } 	
+	];
+
+

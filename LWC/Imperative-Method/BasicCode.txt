@@ -1,0 +1,31 @@
+<template>
+    <lightning-button variant="base" label="labelName" title="titleName" onclick={handleClick}></lightning-button>
+</template>
+
+
+
+
+import { LightningElement, wire, track } from 'lwc';
+import importParamName from '@salesforce/apex/ClassName/MethodName';
+ 
+export default class WireHandsOn extends LightningElement {
+    handleClick(){ //calling at button onClick
+
+        importParamName().then(result => {
+            console.log('Result : '+result);
+        }).catch(error => {
+            console.log('Error : '+error);
+        });
+    }
+}
+
+
+#Also we can call this into ConnectedCallback : 
+
+ConnectedCallback(){
+	importParamName().then(result => {
+            console.log('Result : '+result);
+        }).catch(error => {
+            console.log('Error : '+error);
+        });
+}
