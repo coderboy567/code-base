@@ -1,0 +1,16 @@
+Note : Convert this "2022-09-01T15:00:00" to SF understandable format.
+
+public static datetime getDatetime(String StringTime){
+        Datetime dt;
+        try{            
+            List<String> DateAndTimeList = StringTime.split('T');
+            List<String> dayList = DateAndTimeList[0].split('-'); 
+            List<string> timeList = DateAndTimeList[1].split(':');
+            dt = DateTime.newInstance(Integer.valueOf(dayList[0]), Integer.valueOf(dayList[1]), Integer.valueOf(dayList[2]), Integer.valueOf(timeList[0]), Integer.valueOf(timeList[1]), Integer.valueOf(timeList[2].split('\\.')[0]));            
+            return dt;
+        }catch(Exception e){
+            return  dt= Datetime.valueOf(StringTime);
+        }finally{
+            return dt;
+        }
+    }

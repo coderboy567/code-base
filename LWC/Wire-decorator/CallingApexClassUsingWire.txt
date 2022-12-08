@@ -1,0 +1,30 @@
+import importParameterName from '@salesforce/apex/ClassName.MethodName';
+ 
+ 
+@wire (importParameterName, {parameterPassing})
+    functionName({data, error}){
+        if(data){
+ 
+        }
+        else if(error){
+           
+        }
+    }
+
+
+Eg. : 
+
+
+import getAmeyoData from '@salesforce/apex/wireDemoController.getAmeyoData';
+
+@wire (getAmeyoData, {recordId : ‘$recordId’})
+    handleAmeyoRecord({data, error}){
+        if(data){
+            this.data = data;
+            console.log('Data : '+JSON.stringify(data));
+            console.log('This.Data : '+JSON.stringify(this.data));
+        }
+        else if(error){
+            this.data = undefined;
+        }
+    }
