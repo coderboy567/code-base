@@ -11,21 +11,34 @@ import importParamName from '@salesforce/apex/ClassName/MethodName';
 export default class WireHandsOn extends LightningElement {
     handleClick(){ //calling at button onClick
 
-        importParamName().then(result => {
-            console.log('Result : '+result);
-        }).catch(error => {
-            console.log('Error : '+error);
-        });
+        importParamName({ recordId: this.recordId})
+            .then(result => {
+                console.log('Data result : '+result);
+            }).catch(error => {
+                console.log('Data Error :' + JSON.stringify(error));
+            });
     }
-}
 
+
+
+
+----------------------------------------------------------------------------------------------
+#PassingParameter : 
+
+ plannerRecord({ recordId: this.recordId})
+            .then(result => {
+                console.log('Data result : '+result);
+            }).catch(error => {
+                console.log('Data Error :' + JSON.stringify(error));
+            });
+----------------------------------------------------------------------------------------------
 
 #Also we can call this into ConnectedCallback : 
 
 ConnectedCallback(){
-	importParamName().then(result => {
-            console.log('Result : '+result);
-        }).catch(error => {
-            console.log('Error : '+error);
-        });
-}
+	importParamName({ recordId: this.recordId})
+            .then(result => {
+                console.log('Data result : '+result);
+            }).catch(error => {
+                console.log('Data Error :' + JSON.stringify(error));
+            });

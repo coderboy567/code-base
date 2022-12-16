@@ -1,0 +1,7 @@
+https://   <InstanceURL>      /secur/frontdoor.jsp?sid=     <session id>
+
+how to get sessionID : 
+
+String sessionID=UserInfo.getOrganizationId()+''+UserInfo.getSessionId().subString(15);
+
+system.debug('session id '+sessionID);

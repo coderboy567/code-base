@@ -1,0 +1,11 @@
+https://login.salesforce.com/services/oauth2/token?client_id=&client_secret=&username=&grant_type=password&password=PasswordSecuritytoken
+
+
+
+
+
+client_id 
+client_secret
+username
+password
+grant_type

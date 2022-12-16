@@ -1,0 +1,51 @@
+@RestResource(urlMapping='/postContact')
+global class WebServiceContact {
+    @HttpPost
+    global static void doPost(){
+        
+        
+        String jsonData = doPostCallout();
+        
+        if(jsondata != null){
+            Contact con = parseData(jsonData);
+            if(con != null)
+                sendResponse(con);
+        }
+        
+    }
+    
+    public static string doPostCallout(){
+        RestRequest req = RestContext.request;
+        RestResponse res = RestContext.response;
+        return req.requestBody.toString();
+    }
+    
+    public static Contact parseData(String jsonData){
+        Map<String,Object> requestJSON= (Map<String,Object>)JSON.deserializeUntyped(jsonData);
+        Contact con = new Contact();
+        try{            
+            con.AccountId = (String)requestJSON.get('AccountId') != null ? (String)requestJSON.get('AccountId') : null;
+            con.Email = (String)requestJSON.get('Email') != null ? (String)requestJSON.get('Email') : null;
+            con.FirstName = (String)requestJSON.get('FirstName') != null ? (String)requestJSON.get('FirstName') : null;
+            con.LastName = (String)requestJSON.get('LastName') != null ? (String)requestJSON.get('LastName') : null;
+            con.MailingCity = (String)requestJSON.get('MailingCity') != null ? (String)requestJSON.get('MailingCity') : null;
+            con.MailingCountry = (String)requestJSON.get('MailingCountry') != null ? (String)requestJSON.get('MailingCountry') : null ;
+            con.MailingStreet = (String)requestJSON.get('MailingStreet') != null ? (String)requestJSON.get('MailingStreet') : null;    
+            
+            insert con;                        
+        }
+        catch(Exception e){
+            System.debug('Exception : '+e.getMessage()+ 'at line number : '+e.getLineNumber());            
+        } 
+        
+        return con != null ? con : null;
+        
+    }
+    
+    
+    public static void sendResponse(Contact con){
+        RestContext.response.addHeader('Content-Type', 'application/json');
+        RestContext.response.statusCode = 200;
+        RestContext.response.responseBody = Blob.valueOf('{"statusCode":200,"message":"Contact Created Successfully","data":{"ID":"'+con.Id+'"}}');
+    }
+}
