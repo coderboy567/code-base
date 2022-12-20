@@ -2,6 +2,5 @@
             
         }
         catch(system.exception e){
-            System.debug('Exception e '+e);
-            System.debug('Exception : +'e.getMessage+ 'at line number : '+e.getLineNumber());            
+            System.debug('Exception : '+e.getMessage()+ 'at line number : '+e.getLineNumber());            
         } 
