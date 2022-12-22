@@ -1,0 +1,27 @@
+<lightning-layout multiple-rows>
+ <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+								medium-device-size="12" large-device-size="12">
+								<div class="slds-align_absolute-center">
+									//Code1
+								</div>
+							</lightning-layout-item>							
+
+
+
+
+
+
+ <lightning-layout-item size="12" padding="around-small" small-device-size="12"
+								medium-device-size="12" large-device-size="12">
+								<div class="slds-align_absolute-center">
+									//Code1
+								</div>
+							</lightning-layout-item>							
+
+
+
+
+
+
+							
+</lightning-layout>
