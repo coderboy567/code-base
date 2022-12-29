@@ -1,1 +1,4 @@
+import { CloseActionScreenEvent } from 'lightning/actions';
+
+
 this.dispatchEvent(new CloseActionScreenEvent());

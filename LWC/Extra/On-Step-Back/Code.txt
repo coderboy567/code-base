@@ -1,0 +1,6 @@
+setTimeout(
+            function () {
+                window.history.back();
+            },
+            1000
+        );

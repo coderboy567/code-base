@@ -1,0 +1,1 @@
+window.location.assign("https://coderboy6-dev-ed.lightning.force.com/" + this.recordID);
